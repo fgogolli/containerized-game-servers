@@ -6,4 +6,8 @@ BASE_AMD_IMAGE=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$BASE_REPO:$BAS
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $BASE_IMAGE
 
 docker manifest create $BASE_IMAGE --amend $BASE_ARM_IMAGE --amend $BASE_AMD_IMAGE
+
+docker manifest annotate --arch arm64 $GAME_SERVER_IMAGE $GAME_ARM_SERVER_IMAGE
+docker manifest annotate --arch amd64 $GAME_SERVER_IMAGE GAME_AMD_SERVER_IMAGE
+
 docker manifest push $BASE_IMAGE
